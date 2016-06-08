@@ -1,4 +1,5 @@
 # TaskList for Jsf
+a task list (todoList) application similar to GmailTask written by Java
 
 ## Library
  * Java EE (Cdi-bin)
