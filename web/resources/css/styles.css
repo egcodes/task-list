@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 19, 2016, 10:26:57 PM
+    Author     : erdigurbuz
+*/
+
+
+.tasksTree {
+    border: none !important;
+}
+
+.tasksTree .ui-widget-content {
+    border: none !important;
+    margin: 0px !important;
+}
+
+.taskBoxHeaderText {
+    font-size: 15px !important;
+    font-weight: bold;
+    margin-right: 32px !important;
+}
+
+.taskBoxButtons .ui-button-text.ui-c {
+    background: #6782a4 !important;
+    height: 12px !important;
+}
+
+.tasksText  {
+    border: none !important;
+}
+
+.tasksTextRoot {
+    border: none !important;
+    border-bottom: 2px solid #EEE !important;
+    border-radius: 0px;
+    color: #000 !important;
+}
+
+.tasksTextCompleted  {
+    border: none !important;
+    text-decoration: line-through;
+}
+
+.tasksTextRootCompleted {
+    border: none !important;
+    border-bottom: 2px solid #EEE !important;
+    border-radius: 0px;
+    color: #000 !important;
+    text-decoration: line-through;
+}

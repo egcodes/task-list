@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="styles.css"  /> 
+    </h:head>
+
+    <h:body>
+        <p:fieldset legend="Task List" style="margin: auto; width: 768px; padding: 20px">
+            <h:form>
+                <h:panelGrid columns="6" styleClass="taskBoxButtons">
+                    <p:commandButton actionListener="#{taskService.addNewTask(true)}" icon="ui-icon-plus"  title="Add new task (Enter)"/>
+                    <p:commandButton actionListener="#{taskService.removeSelectedTask(false)}" icon="ui-icon-trash" title="Delete task (if the cursor)"/>
+                    <p:commandButton actionListener="#{taskService.indentTask}" style="width: 23px" icon="ui-icon-carat-1-e" title="Indent selected task (Tab)"/>
+                    <p:commandButton actionListener="#{taskService.outdentTask}" style="width: 23px" icon="ui-icon-carat-1-w" title="Un-indent selected task (Alt)"/>
+                    <p:commandButton actionListener="#{taskService.upTask}" style="width: 23px" icon="ui-icon-carat-1-n" title="Up selected task"/>
+                    <p:commandButton actionListener="#{taskService.downTask}" style="width: 23px" icon="ui-icon-carat-1-s" title="Down selected task"/>
+                </h:panelGrid>
+            </h:form>
+
+            <h:form id="tasksForm">
+                <p:treeTable id="tasks" value="#{taskService.root}" var="task" selectionMode="checkbox" styleClass="tasksTree">
+                    <p:ajax event="unselect" listener="#{taskService.onNodeUnselect}" update="tasks" immediate="true" partialSubmit="true"/>
+                    <p:ajax event="select" listener="#{taskService.onNodeSelect}" update="tasks" immediate="true" partialSubmit="true"/>
+                    <p:ajax event="expand" listener="#{taskService.nodeExpand}" immediate="true" partialSubmit="true"/>
+                    <p:ajax event="collapse" listener="#{taskService.nodeCollapse}" immediate="true" partialSubmit="true"/>
+
+                    <p:column style="border: none !important">
+                        <p:inputTextarea id="taskArea" styleClass="#{task.parent == true ? ( task.completed == true ? 'tasksTextRootCompleted' : 'tasksTextRoot') 
+                                                                     : ( task.completed == true ? 'tasksTextCompleted' : 'tasksText')}"  
+                                         maxlength="255" rows="1" value="#{task.value}" placeholder="Enter new task" 
+                                         onmouseup="onclick(); return false;" 
+                                         onkeydown="if (event.keyCode === 13 || event.keyCode === 9) {
+                                                     return false;
+                                                 }"  
+                                         onkeyup="document.getElementById('#{keyCode.clientId}').value = event.keyCode;"
+                                         >
+                            <f:ajax event="keyup" execute="@this keyCode" listener="#{taskService.taskInputListener}" />
+                            <f:ajax event="click" listener="#{taskService.setSelectedTask}" />
+                            <p:focus rendered="#{task.rowKey eq taskService.selectedRowKey}" for="taskArea" />
+
+                        </p:inputTextarea>
+                        <h:inputHidden id="keyCode" binding="#{keyCode}" value="#{taskService.keyCode}" />
+                    </p:column>
+                </p:treeTable>
+            </h:form>     
+        </p:fieldset>
+
+    </h:body>
+
+</html>
